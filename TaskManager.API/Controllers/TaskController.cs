@@ -17,14 +17,16 @@ namespace TaskManager.API.Controllers
         TaskBL taskObj = new TaskBL();
 
         [Route("GetAllTask")]
+        [AcceptVerbs("GET")]
         public IHttpActionResult Get()
         {
             return Ok(taskObj.GetAll());
         }
 
-         //GET: api/Tasks/id
-        [Route("GetTaskById/{id:int}")]
+        //GET: api/Tasks/id
         [ResponseType(typeof(Entities.Task))]
+        [Route("GetTaskById/{id:int}")]        
+        [AcceptVerbs("GET")]
         public async Task<IHttpActionResult> Get(int id)
         {
             Entities.Task task = await taskObj.GetById(id);
@@ -37,7 +39,8 @@ namespace TaskManager.API.Controllers
         }
 
         [Route("UpdateTaskById/{id:int}")]
-        [ResponseType(typeof(void))]
+        //[ResponseType(typeof(void))]
+        [AcceptVerbs("PUT")]
         public async Task<IHttpActionResult> Put(int id, Entities.Task task)
         {
             if (!ModelState.IsValid)
@@ -58,18 +61,23 @@ namespace TaskManager.API.Controllers
 
         [ResponseType(typeof(Entities.Task))]
         [Route("AddTask")]
-        public async Task<IHttpActionResult> Post(Entities.Task task)
+        public async Task<IHttpActionResult> Post (Entities.Task task)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
-            }            
-            await taskObj.Add(task);
-            return Ok("Task Added Successfully");             
+            }
+            if (task != null)
+            {
+                await taskObj.Add(task);                
+                return Ok("Task Added Successfully");
+            }
+            
+           return BadRequest();
         }
         [Route("DeleteTaskById/{id:int}")]
-        [ResponseType(typeof(void))]
-        [HttpDelete]
+        //[ResponseType(typeof(void))]
+        [AcceptVerbs("DELETE")]
         public async Task<IHttpActionResult> Delete(int id)
         {
             if (!ModelState.IsValid)
@@ -85,7 +93,7 @@ namespace TaskManager.API.Controllers
         }
 
         [Route("EndTaskById/{id:int}")]
-        [ResponseType(typeof(void))]
+        //[ResponseType(typeof(void))]
         [HttpPost]
         public async Task<IHttpActionResult> EndTask(int id)
         {

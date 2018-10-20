@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
+using TaskManager.DataLib;
 
 namespace TaskManager.API
 {
@@ -12,7 +14,8 @@ namespace TaskManager.API
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
-            System.Data.Entity.Database.SetInitializer(new DataLib.DatabaseInitializer());
+            //System.Data.Entity.Database.SetInitializer(new DataLib.DatabaseInitializer());
+            Database.SetInitializer<TaskManagerContext>(new DropCreateDatabaseIfModelChanges<TaskManagerContext>());
         }
     }
 }

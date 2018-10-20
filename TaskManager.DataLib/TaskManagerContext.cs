@@ -14,6 +14,11 @@ namespace TaskManager.DataLib
         {
 
         }
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    Database.SetInitializer<TaskManagerContext>(null);
+        //    base.OnModelCreating(modelBuilder);
+        //}
         public DbSet<Entities.Task> Tasks { get; set; }
     }
 }
